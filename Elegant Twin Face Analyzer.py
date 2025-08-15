@@ -1,9 +1,22 @@
 import base64
 import json
 import time
-from flask import Flask, request, jsonify, render_template_string
 from threading import Lock
 import random
+import subprocess
+import sys
+
+try:
+    from flask import Flask, request, jsonify, render_template_string
+except ImportError:
+    print("Flask not found. Attempting to install...")
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "Flask"])
+        print("Flask installed successfully. Please restart the application.")
+        sys.exit(0)
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to install Flask: {e}")
+        sys.exit(1)
 
 # Initialize the Flask application
 app = Flask(__name__)
